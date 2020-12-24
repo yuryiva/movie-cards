@@ -1,0 +1,11 @@
+*{
+    border: 1px solid black;
+
+}
+
+.list-of-movies{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
