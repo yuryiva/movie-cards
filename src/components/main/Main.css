@@ -9,3 +9,10 @@
     justify-content: space-around;
     flex-wrap: wrap;
 }
+
+.selector-and-search {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 1%
+}

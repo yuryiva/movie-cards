@@ -1,0 +1,17 @@
+.movie-card {
+    position: fixed;
+    margin-bottom: 10%;
+    z-index: 1;
+    background-color: rgb(235, 184, 241);
+    width: 25%;
+    height: auto;
+    margin: 1% 38%;
+    border-radius: 5px;
+    border: 3px solid pink;
+  }
+  
+  h5 {
+    text-align: center;
+  }
+  
+  

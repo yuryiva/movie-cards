@@ -1,12 +1,11 @@
 import React from 'react'
-import './MovieCard.css'
+import './FavouriteMovieCard.css'
 
-export default function MovieCard(props) {
+export default function FavouriteMovieCard(props) {
     return (
         <div className='movie-card'>
-          <h5>THE STORY: </h5>{props.plot}  
+          <h5> FAVOURITE THE STORY: </h5>{props.plot}  
           <h5>ACTORS: </h5>{props.actors}
-          <br/>
           <button onClick={props.closeDetails}>Close</button>
         </div>
     )

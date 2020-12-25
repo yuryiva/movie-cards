@@ -22,7 +22,7 @@ const Movie = (props) => {
           <h3>DIRECTED BY: {myProps.director}</h3>
           <h4>GENRES: {myProps.genres};</h4>
         </div>
-
+       
         <div className="button-container">
           {myProps.add && (
             <button onClick={() => myProps.addToFav(myProps.exactMovie)}>
@@ -32,7 +32,7 @@ const Movie = (props) => {
 
           {myProps.delete && (
             <button onClick={() => myProps.deleteFromFav(myProps.exactMovie)}>
-              Delete from favourites
+              Remove from favourites
             </button>
           )}
           
