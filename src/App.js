@@ -1,7 +1,7 @@
 import { Switch, Route } from "react-router-dom";
 import "./App.css";
 import Main from "./components/main/Main";
-import Movie from "./components/movie/Movie";
+import Movie from './components/movie/Movie'
 
 function App() {
   return (

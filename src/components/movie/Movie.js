@@ -1,32 +1,42 @@
+
 import React from "react";
 import "./Movie.css";
+// import { Link } from "react-router-dom";
+// import MovieCard from "../movieCard/MovieCard";
+// import { nanoid } from "nanoid";
 
 const Movie = (props) => {
+  let myProps = props.location //if there is smth. in props.location (which is .....'/random') , then you receive props from props.location.state.randomMovie
+    ? props.location.state.randomMovie
+    : props;        // if there is nothing in props.location, it means you're at '/' and receiving normal props
+
   return (
     <div className="movie-container">
       <div className="image-container">
-        <img src={props.imgLink} alt={props.title} />
+        <img src={myProps.imgLink} alt={myProps.title} />
       </div>
       <div className="text-and-button-container">
-      <div className='text-container'>
-        <h2>{props.title}</h2>
-        <h3>{props.year}</h3>
-        <h3>DIRECTED BY: {props.director}</h3>
-        <h4>GENRES: {props.genres};</h4>
+        <div className="text-container">
+          <h2>{myProps.title}</h2>
+          <h3>{myProps.year}</h3>
+          <h3>DIRECTED BY: {myProps.director}</h3>
+          <h4>GENRES: {myProps.genres};</h4>
         </div>
-        
-        <div className='button-container'>
-        {props.add && (
-          <button onClick={() => props.addToFav(props.exactMovie)}>
-            Add to favourites
-          </button>
-        )}
 
-        {props.delete && (
-          <button onClick={() => props.deleteFromFav(props.exactMovie)}>
-            Delete from favourites
-          </button>
-        )}
+        <div className="button-container">
+          {myProps.add && (
+            <button onClick={() => myProps.addToFav(myProps.exactMovie)}>
+              Add to favourites
+            </button>
+          )}
+
+          {myProps.delete && (
+            <button onClick={() => myProps.deleteFromFav(myProps.exactMovie)}>
+              Delete from favourites
+            </button>
+          )}
+          
+          <button onClick={()=>myProps.showDetails(myProps.exactMovie)}>Details</button>
         </div>
       </div>
     </div>

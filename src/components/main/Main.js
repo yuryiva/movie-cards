@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import React, { Component } from "react";
 import Movie from "../movie/Movie";
+import MovieCard from "../movieCard/MovieCard";
 import SearchForm from "../searchForm/SearchForm";
 import Selector from "../selector/Selector";
 import "./Main.css";
@@ -12,6 +13,9 @@ export default class Main extends Component {
     favouriteMovies: [],
     allGenres: [],
     keyWord: "",
+    randomMovie: {},
+    showDetails: false,
+    detailsOfMovieToShow: {},
   };
 
   componentDidMount() {
@@ -93,13 +97,50 @@ export default class Main extends Component {
       keyWord: "",
     });
 
-    // console.log(filteredMovies);
-    // if (filteredMovies.length=0){
-    //     console.log('filteredMovies=0')}
-    //     else{
-    //         console.log('filteredMovies>0')
-    //     }
-    
+    if (filteredMovies.length === 0) {
+      alert("NO MOVIES FOUND. ALL MOVIES WILL BE REDISPLAYED");
+      fetch(
+        "https://raw.githubusercontent.com/wildcodeschoolparis/datas/master/movies.json"
+      )
+        .then((dataFromApi) => dataFromApi.json())
+
+        .then((dataFromApi) => {
+          this.setState({
+            allMovies: dataFromApi.movies,
+            allMoviesBackUp: dataFromApi.movies,
+            apiDataReceived: true,
+            allGenres: ["All", ...dataFromApi.genres],
+          });
+        });
+    }
+  };
+
+  getRandomMovie = () => {
+    const randomMovieIndex = Math.floor(
+      Math.random() * this.state.favouriteMovies.length
+    );
+    const newRandomMovie = this.state.favouriteMovies[randomMovieIndex];
+    this.setState(
+      {
+        randomMovie: newRandomMovie,
+      },
+      () => {
+        this.props.history.push({
+          pathname: "/random",
+          state: {
+            randomMovie: this.state.randomMovie,
+          },
+        });
+      }
+    );
+  };
+
+  showDetails = (exactMovie) => {
+    const movieToShow = this.state.allMovies[exactMovie];
+    this.setState({
+      showDetails: true,
+      detailsOfMovieToShow: movieToShow,
+    });
   };
 
   render() {
@@ -107,23 +148,32 @@ export default class Main extends Component {
       <div>
         {this.state.apiDataReceived && (
           <div>
-            <div className="list-of-movies">
-              {this.state.favouriteMovies.length > 0 &&
-                this.state.favouriteMovies.map((movie, index) => (
-                  <Movie
-                    key={nanoid()}
-                    // imgLink={movie.posterUrl}
-                    title={movie.title}
-                    year={movie.year}
-                    director={movie.director}
-                    genres={movie.genres.map((genre) => (
-                      <span key={nanoid()}>-{genre}</span>
+            <div>
+              {this.state.favouriteMovies.length > 0 && (
+                <div>
+                  <h3>
+                    PICK RANDOM FAVOURITE MOVIE
+                    <button onClick={this.getRandomMovie}>PICK</button>
+                  </h3>
+                  <div className="list-of-movies">
+                    {this.state.favouriteMovies.map((movie, index) => (
+                      <Movie
+                        key={nanoid()}
+                        // imgLink={movie.posterUrl}
+                        title={movie.title}
+                        year={movie.year}
+                        director={movie.director}
+                        genres={movie.genres.map((genre) => (
+                          <span key={nanoid()}>-{genre}</span>
+                        ))}
+                        exactMovie={index}
+                        deleteFromFav={this.deleteFromFav}
+                        delete
+                      />
                     ))}
-                    exactMovie={index}
-                    deleteFromFav={this.deleteFromFav}
-                    delete
-                  />
-                ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <hr />
@@ -137,7 +187,14 @@ export default class Main extends Component {
             <SearchForm
               handleInput={this.handleInput}
               handleSearh={this.handleSearh}
+              input={this.resetInput}
             />
+             {this.state.showDetails && (
+              <MovieCard
+                plot={this.state.detailsOfMovieToShow.plot}
+                actors={this.state.detailsOfMovieToShow.actors}
+              />
+            )}
             <div className="list-of-movies">
               {this.state.allMovies.map((movie, index) => {
                 {
@@ -156,10 +213,12 @@ export default class Main extends Component {
                     addToFav={this.addToFav}
                     exactMovie={index}
                     add
+                    showDetails={this.showDetails}
                   />
                 );
               })}
             </div>
+           
           </div>
         )}
       </div>
