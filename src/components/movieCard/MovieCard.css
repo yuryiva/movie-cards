@@ -2,7 +2,8 @@
   position: fixed;
   top: 10%;
   z-index: 1;
-  background-color: rgb(235, 184, 241);
+  background-color: rgb(223, 223, 203);
+  color:black;
   width: 25%;
   height: auto;
   border-radius: 5px;

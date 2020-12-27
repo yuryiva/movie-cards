@@ -170,7 +170,7 @@ export default class Main extends Component {
 
   render() {
     return (
-      <div>
+      <div className='main'>
         {this.state.apiDataReceived && (
           <div>
             <div>
