@@ -184,7 +184,7 @@ export default class Main extends Component {
                     {this.state.favouriteMovies.map((movie, index) => (
                       <Movie
                         key={nanoid()}
-                        imgLink={movie.posterUrl}
+                        // imgLink={movie.posterUrl}
                         title={movie.title}
                         year={movie.year}
                         director={movie.director}
@@ -228,7 +228,7 @@ export default class Main extends Component {
                 return (
                   <Movie
                     key={nanoid()}
-                    imgLink={movie.posterUrl}
+                    // imgLink={movie.posterUrl}
                     title={movie.title}
                     year={movie.year}
                     director={movie.director}
