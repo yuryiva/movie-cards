@@ -37,9 +37,5 @@ img {
 .button-container {
   display: flex;
   flex-direction: row;
-  align-items: center;
-}
-
-button {
-  width: 60%;
+  justify-content: space-around;
 }

@@ -1,14 +1,11 @@
-
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Movie.css";
-// import { Link } from "react-router-dom";
-// import MovieCard from "../movieCard/MovieCard";
-// import { nanoid } from "nanoid";
 
 const Movie = (props) => {
   let myProps = props.location //if there is smth. in props.location (which is .....'/random') , then you receive props from props.location.state.randomMovie
     ? props.location.state.randomMovie
-    : props;        // if there is nothing in props.location, it means you're at '/' and receiving normal props
+    : props; // if there is nothing in props.location, it means you're at '/' and receiving normal props
 
   return (
     <div className="movie-container">
@@ -22,7 +19,7 @@ const Movie = (props) => {
           <h3>DIRECTED BY: {myProps.director}</h3>
           <h4>GENRES: {myProps.genres};</h4>
         </div>
-       
+
         <div className="button-container">
           {myProps.add && (
             <button onClick={() => myProps.addToFav(myProps.exactMovie)}>
@@ -35,8 +32,15 @@ const Movie = (props) => {
               Remove from favourites
             </button>
           )}
-          
-          <button onClick={()=>myProps.showDetails(myProps.exactMovie)}>Details</button>
+          <button onClick={() => myProps.showDetails(myProps.exactMovie)}>
+            Details
+          </button>
+
+          {props.location && (
+            <Link to="/">
+              <button>Back</button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

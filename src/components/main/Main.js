@@ -1,6 +1,5 @@
 import { nanoid } from "nanoid";
 import React, { Component } from "react";
-import FavouriteMovieCard from "../favouriteMovieCard/FavouriteMovieCard";
 import Movie from "../movie/Movie";
 import MovieCard from "../movieCard/MovieCard";
 import SearchForm from "../searchForm/SearchForm";
@@ -15,7 +14,6 @@ export default class Main extends Component {
     allGenres: [],
     keyWord: "",
     randomMovie: {},
-    showFavouriteMovieCard: false,
     showMovieCard: false,
     detailsOfMovieToShow: {},
   };
@@ -41,9 +39,8 @@ export default class Main extends Component {
     const copyOfFavouriteMovies = [...this.state.favouriteMovies];
     copyOfFavouriteMovies.push(favouriteMovie);
     this.setState({
-      detailsOfMovieToShow: {},
+      // detailsOfMovieToShow: {},
       showMovieCard: false,
-      showFavouriteMovieCard: false,
       favouriteMovies: copyOfFavouriteMovies,
     });
 
@@ -54,9 +51,8 @@ export default class Main extends Component {
       }
       this.setState({
         favouriteMovies: copyOfFavouriteMovies,
-        detailsOfMovieToShow: {},
+        // detailsOfMovieToShow: {},
         showMovieCard: false,
-        showFavouriteMovieCard: false,
       });
     });
   };
@@ -67,8 +63,7 @@ export default class Main extends Component {
     this.setState({
       favouriteMovies: copyOfFavouriteMovies,
       showMovieCard: false,
-      showFavouriteMovieCard: false,
-      detailsOfMovieToShow: {},
+      // detailsOfMovieToShow: {},
     });
   };
 
@@ -140,8 +135,10 @@ export default class Main extends Component {
           pathname: "/random",
           state: {
             randomMovie: this.state.randomMovie,
-            
-    detailsOfMovieToShow: this.state.detailsOfMovieToShow,
+            detailsOfMovieToShow: this.state.randomMovie,
+            allMovies: this.state.allMovies,
+            favouriteMovies: this.state.favouriteMovies,
+            showMovieCard: this.state.showMovieCard,
           },
         });
       }
@@ -150,31 +147,24 @@ export default class Main extends Component {
 
   showDetails = (exactMovie) => {
     const movieToShow = this.state.allMovies[exactMovie];
-    if (
-      this.state.favouriteMovies.includes(movieToShow) &&
-      this.state.allMovies.includes(movieToShow)
-    ) {
-      this.setState({
-        showFavouriteMovieCard: true,
-        showMovieCard: false,
-        detailsOfMovieToShow: movieToShow,
-      });
-    }
+    this.setState({
+      showMovieCard: true,
+      detailsOfMovieToShow: movieToShow,
+    });
+  };
 
-    if (this.state.allMovies.includes(movieToShow)) {
-      this.setState({
-        showFavouriteMovieCard: false,
-        showMovieCard: true,
-        detailsOfMovieToShow: movieToShow,
-      });
-    }
+  showDetailsOfFav = (exactMovie) => {
+    const movieToShow = this.state.favouriteMovies[exactMovie];
+    this.setState({
+      showMovieCard: true,
+      detailsOfMovieToShow: movieToShow,
+    });
   };
 
   closeDetails = () => {
     this.setState({
-      showFavouriteMovieCard: false,
       showMovieCard: false,
-      detailsOfMovieToShow: {},
+      // detailsOfMovieToShow: {},
     });
   };
 
@@ -188,20 +178,13 @@ export default class Main extends Component {
                 <div>
                   <h3>
                     PICK RANDOM FAVOURITE MOVIE
-                    <button onClick={this.getRandomMovie}>PICK</button>
+                    <button onClick={this.getRandomMovie} className='random-button'>PICK</button>
                   </h3>
-                  {/* {this.state.showFavouriteMovieCard && (
-                    <FavouriteMovieCard
-                      plot={this.state.detailsOfMovieToShow.plot}
-                      actors={this.state.detailsOfMovieToShow.actors}
-                      closeDetails={this.closeDetails}
-                    />
-                  )} */}
                   <div className="list-of-movies">
                     {this.state.favouriteMovies.map((movie, index) => (
                       <Movie
                         key={nanoid()}
-                        // imgLink={movie.posterUrl}
+                        imgLink={movie.posterUrl}
                         title={movie.title}
                         year={movie.year}
                         director={movie.director}
@@ -211,7 +194,7 @@ export default class Main extends Component {
                         exactMovie={index}
                         deleteFromFav={this.deleteFromFav}
                         delete
-                        showDetails={this.showDetails}
+                        showDetails={this.showDetailsOfFav}
                       />
                     ))}
                   </div>
@@ -242,13 +225,10 @@ export default class Main extends Component {
             )}
             <div className="list-of-movies">
               {this.state.allMovies.map((movie, index) => {
-                {
-                  /* console.log(movie.posterUrl); */
-                }
                 return (
                   <Movie
                     key={nanoid()}
-                    // imgLink={movie.posterUrl}
+                    imgLink={movie.posterUrl}
                     title={movie.title}
                     year={movie.year}
                     director={movie.director}
